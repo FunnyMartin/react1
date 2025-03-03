@@ -9,6 +9,7 @@ function App() {
         <>
             <h2>My Password Game</h2>
             <PasswordInput passwordValue={password} setter={setPassword}/>
+            <br/> <br/>
             <PasswordStrength password={password}/>
         </>
     )

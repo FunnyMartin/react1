@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 interface PasswordStrengthProps {
     password: string | null
@@ -7,25 +7,31 @@ interface PasswordStrengthProps {
 const PasswordStrength: React.FC<PasswordStrengthProps> = ({password}: PasswordStrengthProps) => {
 
     const errorArray: Array<string> = [];
+    const [toggle, setToggle] = useState(false);
 
-    if (password === null) {return ("Napis neco");}
+
+    if (password === null) {return ("Write something");}
     if (password.length < 8){
-        errorArray.push('Heslo je prilis kratke');
+        errorArray.push('Too short');
     }
-    if(password.search("[A-Z]") === -1) {errorArray.push('Heslo neobsahuje velke pismeno')}
-    if(password.search(("[0-9]")) === -1) {errorArray.push('Heslo neobsahuje cislo')}
-    if(password.search(("[!@#$%^&*?]")) === -1) {errorArray.push('Heslo neobsahuje specialni znak')}
-    if(password.search(/[😀-🙏]/u) === -1) {errorArray.push('Heslo neobsahuje emoji')}
+    if(password.search("[A-Z]") === -1) {errorArray.push('Include upper case letter')}
+    if(password.search(("[0-9]")) === -1) {errorArray.push('Include a number')}
+    if(password.search(("[!@#$%^&*?]")) === -1) {errorArray.push('Include a special character')}
+    if(password.search(/[😀-🙏]/u) === -1) {errorArray.push('Include an emoji')}
 
     return (
         <>
-            {
-                errorArray.map((value, index) => {
-                    return <p key={index}>{value}</p>
-            })
-            }
+
+            <button onClick={() => setToggle(!toggle)}>Toggle visibility</button>
+            {toggle && (
+                <>
+                    {errorArray.map((value, index) => (
+                        <p key={index}>{value}</p>
+                    ))}
+                </>
+            )}
         </>
-    )
+    );
 }
 
 export default PasswordStrength;
