@@ -2,6 +2,7 @@ import './App.css'
 import {useState} from "react";
 import PasswordInput from "./components/PasswordInput.tsx";
 import PasswordStrength from "./components/PasswordStrength.tsx";
+import CharacterSequenceValidator from "./components/CharacterSequenceValidator.tsx";
 
 function App() {
     const [password, setPassword] = useState<string|null>(null);
@@ -11,6 +12,7 @@ function App() {
             <PasswordInput passwordValue={password} setter={setPassword}/>
             <br/> <br/>
             <PasswordStrength password={password}/>
+            <CharacterSequenceValidator password={password}/>
         </>
     )
 }
