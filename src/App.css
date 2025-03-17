@@ -5,6 +5,8 @@
   text-align: center;
 }
 
+:root { --primary-color: #3498db; }
+
 .logo {
   height: 6em;
   padding: 1.5em;
