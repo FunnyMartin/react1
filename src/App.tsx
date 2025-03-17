@@ -4,6 +4,7 @@ import PasswordInput from "./components/PasswordInput.tsx";
 import PasswordStrength from "./components/PasswordStrength.tsx";
 import CharacterSequenceValidator from "./components/CharacterSequenceValidator.tsx";
 import PasswordTimeValidator from "./components/PasswordTimeValidator.tsx";
+import CountryFlagValidator from "./components/CountryFlagValidator.tsx";
 
 function App() {
     const [password, setPassword] = useState<string|null>(null);
@@ -16,6 +17,7 @@ function App() {
             <PasswordStrength password={password}/>
             <CharacterSequenceValidator password={password}/>
             <PasswordTimeValidator password={password} passwordCreationTime={passwordCreationTimeA} timeWindow={5000}/>
+            <CountryFlagValidator password={password}/>
         </>
     )
 }
