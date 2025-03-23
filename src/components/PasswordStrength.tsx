@@ -1,50 +1,53 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 interface PasswordStrengthProps {
-    password: string | null
+    password: string;
 }
 
-const PasswordStrength: React.FC<PasswordStrengthProps> = ({password}: PasswordStrengthProps) => {
+const PasswordStrength: React.FC<PasswordStrengthProps> = ({ password }) => {
+    const [showDetails, setShowDetails] = useState<boolean>(false);
 
-    const errorArray: Array<string> = [];
-    const [toggle, setToggle] = useState(false);
-    let lineColor: string;
+    const criteria = [
+        { test: password.length >= 8, message: "At least 8 characters" },
+        { test: /[A-Z]/.test(password), message: "Must include an uppercase letter" },
+        { test: /[0-9]/.test(password), message: "Must include a number" },
+        { test: /[!@#$%^&*]/.test(password), message: "Must include a special character (!@#$%^&*)" },
+        { test: /[😀-🙏]/u.test(password), message: "Must include an emoji" }
+    ];
 
-    if(password === null) {return ("Write something");}
-    if(password.length < 8){errorArray.push('Too short');}
-    if(password.search("[A-Z]") === -1) {errorArray.push('Include upper case letter')}
-    if(password.search(("[0-9]")) === -1) {errorArray.push('Include a number')}
-    if(password.search(("[!@#$%^&*?]")) === -1) {errorArray.push('Include a special character')}
-    if(password.search(/[😀-🙏]/u) === -1) {errorArray.push('Include an emoji')}
+    const passedCriteria = criteria.filter(c => c.test).length;
+    let strengthLabel;
+    let borderColor;
 
-    switch (errorArray.length){
-        case 0:
-            lineColor = "green";
-            break;
-        case 1:
-            lineColor = "orange";
-            break;
-        case 2:
-            lineColor = "red";
-            break;
-        default:
-            lineColor = "red";
-            break;
+    if (passedCriteria === criteria.length) {
+        strengthLabel = "Strong";
+        borderColor = "green";
+    } else if (passedCriteria >= 3) {
+        strengthLabel = "Medium";
+        borderColor = "orange";
+    } else {
+        strengthLabel = "Weak";
+        borderColor = "red";
     }
 
     return (
-        <>
-            <hr style={{borderColor:lineColor}}/>
-            <button onClick={() => setToggle(!toggle)}>Toggle visibility</button>
-            {toggle && (
-                <>
-                    {errorArray.map((value, index) => (
-                        <p key={index}>{value}</p>
+        <div>
+            <h5>Password Strength: {strengthLabel}</h5>
+            <hr style={{ borderColor: borderColor }} />
+            <button className="btn btn-secondary btn-sm mb-2" onClick={() => setShowDetails(!showDetails)}>
+                {showDetails ? "Hide details" : "Show details"}
+            </button>
+            {showDetails && (
+                <div>
+                    {criteria.map((c, index) => (
+                        <p key={index} style={{ color: c.test ? "green" : "red", margin: "0" }}>
+                            {c.message} {c.test ? "✓" : "✗"}
+                        </p>
                     ))}
-                </>
+                </div>
             )}
-        </>
+        </div>
     );
-}
+};
 
 export default PasswordStrength;

@@ -5,7 +5,15 @@
   text-align: center;
 }
 
-:root { --primary-color: #3498db; }
+:root {
+  --primary-color: #3498db;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
 
 .logo {
   height: 6em;
