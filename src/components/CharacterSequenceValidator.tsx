@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-interface CharacterSequenceProps {
-    password: string | null
+interface CharacterSequenceValidatorProps {
+    password: string;
 }
 
-const CharacterSequenceValidator: React.FC<CharacterSequenceProps> = ({password}: CharacterSequenceProps) =>  {
-    const [valid, setValid] = useState(false);
-    const [count, setCount] = useState<null | number>(null);
-    const re: RegExp = /[a-z][A-Z][0-9][!@#$%^&*+]/g;
+const CharacterSequenceValidator: React.FC<CharacterSequenceValidatorProps> = ({ password }) => {
+    const [valid, setValid] = useState<boolean>(false);
+    const [count, setCount] = useState<number>(0);
+    const sequenceRe = /[a-z][A-Z][0-9][!@#$%^&*+]/g;
 
     useEffect(() => {
-        if (password?.match(re)) {
+        const matches = password.match(sequenceRe);
+        if (matches && matches.length > 0) {
             setValid(true);
-            setCount(password.match(re)?.length || 0);
+            setCount(matches.length);
         } else {
             setValid(false);
             setCount(0);
@@ -20,10 +21,12 @@ const CharacterSequenceValidator: React.FC<CharacterSequenceProps> = ({password}
     }, [password]);
 
     return (
-        <>
-            <p>Password contains sequence: {valid ? 'Yes' : 'No'}, {count} time(s)</p>
-        </>
+        <div>
+            <p>
+                Character sequence check: {valid ? `Found ${count} valid sequence(s)` : "No valid sequence found"}
+            </p>
+        </div>
     );
-}
+};
 
 export default CharacterSequenceValidator;
